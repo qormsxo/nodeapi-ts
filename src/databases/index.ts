@@ -11,8 +11,8 @@ export const dbConnection: ConnectionOptions = {
   database: DB_DATABASE,
   synchronize: false,
   logging: false,
-  entities: [join(__dirname, '../**/*.entity{.ts,.js}')],
-  migrations: [join(__dirname, '../**/*.migration{.ts,.js}')],
+  entities: [join(__dirname, '../entities/*{.ts,.js}')],
+  migrations: [join(__dirname, '../migration/*.migration{.ts,.js}')],
   subscribers: [join(__dirname, '../**/*.subscriber{.ts,.js}')],
   cli: {
     entitiesDir: 'src/entities',

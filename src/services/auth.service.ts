@@ -21,8 +21,6 @@ class AuthService extends Repository<Users> {
     const createUserData: User = await Users.create({ ...userData, password: hashedPassword }).save();
     return createUserData;
   }
-
-  // 로그인 패스포트로 변경 예정
   public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
 
