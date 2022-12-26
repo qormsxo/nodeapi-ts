@@ -8,21 +8,6 @@ import { RequestWithUser } from '@/interfaces/auth.interface';
 class AuthController {
   public authService = new AuthService();
 
-  public signUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const userData: CreateUserDto = req.body;
-      const signUpUserData: User = await this.authService.signup(userData);
-
-      res.status(201).json({ data: signUpUserData, message: 'signup' });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public joinView(req: Request, res: Response) {
-    res.render('join', { title: '회원가입 - NodeBird' });
-  }
-
   public logIn(req: Request, res: Response, next: NextFunction) {
     passport.authenticate('local', (error: Error, user, info) => {
       if (error) {

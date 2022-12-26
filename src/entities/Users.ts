@@ -2,6 +2,7 @@ import { User } from '@/interfaces/users.interface';
 import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
 import { Follow } from './Follow';
 import { Posts } from './Posts';
+import { Domains } from './Domain';
 
 @Index('email', ['email'], { unique: true })
 @Index('nick', ['nick'], { unique: true })
@@ -29,6 +30,9 @@ export class Users extends BaseEntity implements User {
 
   @Column('varchar', { name: 'snsId', nullable: true, length: 30 })
   snsId: string | null;
+
+  @OneToMany(() => Domains, domains => domains.user)
+  domains: Domains[];
 
   @Column('datetime', { name: 'createdAt', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

@@ -15,8 +15,6 @@ class AuthRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/join`, isNotLoggedIn, this.authController.joinView);
-    this.router.post(`${this.path}/join`, isNotLoggedIn, this.authController.signUp);
     this.router.post(`${this.path}/login`, isNotLoggedIn, this.authController.logIn);
     this.router.get(`${this.path}/kakao`, passport.authenticate('kakao'));
     this.router.get(

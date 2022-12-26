@@ -1,9 +1,14 @@
 import { RequestWithUser } from '@/interfaces/auth.interface';
 import { NextFunction, Request, Response } from 'express';
+import { Users } from '../entities/Users';
+import IndexService from '../services/index.service';
 
 class IndexController {
-  public index = (req: Request, res: Response, next: NextFunction): void => {
+  private indexService = new IndexService();
+
+  public index = async (req: RequestWithUser, res: Response, next: NextFunction): Promise<void> => {
     try {
+      const user = await this.indexService.index(req);
       res.render('login');
     } catch (error) {
       next(error);
