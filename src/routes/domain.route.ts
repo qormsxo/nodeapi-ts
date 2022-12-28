@@ -16,7 +16,7 @@ class DomainRoute implements Routes {
   }
 
   private initializeRoutes() {
-    // this.router.post(`${this.path}/login`, isNotLoggedIn, this.domainController);
+    this.router.post(`${this.path}`, this.domainController.domainCreate);
   }
 }
 

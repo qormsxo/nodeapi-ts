@@ -1,9 +1,9 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Users } from './Users';
 
 @Index('UserId', ['userId'], {})
 @Entity('domains', { schema: 'nodejs' })
-export class Domains {
+export class Domains extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
@@ -11,7 +11,7 @@ export class Domains {
   host: string;
 
   @Column('enum', { name: 'type', enum: ['free', 'premium'] })
-  type: 'free' | 'premium';
+  type: DomainsType;
 
   @Column('varchar', { name: 'clientSecret', length: 36 })
   clientSecret: string;

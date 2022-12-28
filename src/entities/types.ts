@@ -1,0 +1,1 @@
+type DomainsType = 'free' | 'premium';
