@@ -16,10 +16,10 @@ export class Domains extends BaseEntity {
   @Column('varchar', { name: 'clientSecret', length: 36 })
   clientSecret: string;
 
-  @Column('datetime', { name: 'createdAt' })
+  @Column('datetime', { name: 'createdAt', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column('datetime', { name: 'updatedAt' })
+  @Column('datetime', { name: 'updatedAt', nullable: true })
   updatedAt: Date;
 
   @Column('datetime', { name: 'deletedAt', nullable: true })

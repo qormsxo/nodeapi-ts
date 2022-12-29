@@ -1,3 +1,5 @@
+import { Domains } from '@/entities/Domain';
+
 export interface User {
   id: number;
   email: string;
@@ -8,6 +10,7 @@ export interface User {
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date | null;
+  domains: Domains[];
   Followers: User[];
   Followings: User[];
 }

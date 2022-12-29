@@ -9,7 +9,10 @@ class IndexController {
   public index = async (req: RequestWithUser, res: Response, next: NextFunction): Promise<void> => {
     try {
       const user = await this.indexService.index(req);
-      res.render('login');
+      res.render('login', {
+        user,
+        domains: user && user.domains,
+      });
     } catch (error) {
       next(error);
     }
