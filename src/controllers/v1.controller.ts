@@ -1,18 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
-import { User } from '@interfaces/users.interface';
-import userService from '@services/users.service';
 import { RequestWithUser } from '@interfaces/auth.interface';
-import v1Service from '../services/v1.service';
+import v1Service from '@services/v1.service';
 import * as jwt from 'jsonwebtoken';
+import { Domains } from '../entities/Domain';
 
 class v1Controller {
   public v1Service = new v1Service();
 
-  public async makeToken(req: RequestWithUser, res: Response) {
+  public makeToken = async (req: RequestWithUser, res: Response) => {
     const { clientSecret } = req.body;
     console.log(clientSecret);
     try {
-      const domain = await this.v1Service.findDomainByKey(clientSecret);
+      const domain: Domains = await this.v1Service.findDomainByKey(clientSecret);
+      console.log(domain);
       if (!domain) {
         return res.status(401).json({
           code: 401,
@@ -42,7 +42,25 @@ class v1Controller {
         message: '서버 에러',
       });
     }
-  }
+  };
+
+  public myPosts = async (req: RequestWithUser, res: Response) => {
+    await this.v1Service
+      .findMyPost(req['decoded'].id)
+      .then(post => {
+        res.json({
+          code: 200,
+          payload: post,
+        });
+      })
+      .catch(error => {
+        console.log(error);
+        return res.status(500).json({
+          code: 500,
+          message: '서버에러',
+        });
+      });
+  };
 }
 
 export default v1Controller;
