@@ -10,31 +10,9 @@ class v1Controller {
   public makeToken = async (req: RequestWithUser, res: Response) => {
     const { clientSecret } = req.body;
     console.log(clientSecret);
+    const result = await this.makeTokenByClientSecret(clientSecret);
+    res.status(result.code).json(result);
     try {
-      const domain: Domains = await this.v1Service.findDomainByKey(clientSecret);
-      console.log(domain);
-      if (!domain) {
-        return res.status(401).json({
-          code: 401,
-          message: '등록되지 않은 도메인입니다. 먼저 도메인을 등록하세요',
-        });
-      }
-      const token = jwt.sign(
-        {
-          id: domain.user.id,
-          nick: domain.user.nick,
-        },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: '1m',
-          issuer: 'node-sns',
-        },
-      );
-      return res.json({
-        code: 200,
-        message: '토큰이 발급되었습니다',
-        token,
-      });
     } catch (error) {
       console.log(error);
       return res.status(500).json({
@@ -44,9 +22,28 @@ class v1Controller {
     }
   };
 
-  public myPosts = async (req: RequestWithUser, res: Response) => {
+  private makeTokenByClientSecret = async (clientSecret: string) => {
+    const domain: Domains = await this.v1Service.findDomainByKey(clientSecret);
+    console.log(domain);
+    if (!domain) return { code: 401, message: '등록되지 않은 도메인입니다. 먼저 도메인을 등록하세요' };
+
+    const token = jwt.sign(
+      {
+        id: domain.user.id,
+        nick: domain.user.nick,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: '1m',
+        issuer: 'node-sns',
+      },
+    );
+    return { code: 200, message: '토큰이 발급되었습니다', token };
+  };
+
+  public getMyPosts = async (req: RequestWithUser, res: Response) => {
     await this.v1Service
-      .findMyPost(req['decoded'].id)
+      .findMyPost(req['decoded'].id) // 여기 어떻게 해야할지 방법 찾기
       .then(post => {
         res.json({
           code: 200,

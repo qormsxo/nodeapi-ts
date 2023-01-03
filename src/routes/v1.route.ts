@@ -15,7 +15,7 @@ class v1Route implements Routes {
   private initializeRoutes() {
     this.router.post(`${this.path}/token`, this.v1Controller.makeToken);
     this.router.get(`${this.path}/test`, isLoggedIn);
-    this.router.get(`${this.path}/posts/my`, this.v1Controller.myPosts);
+    this.router.get(`${this.path}/posts/my`, this.v1Controller.getMyPosts);
     // this.router.put(`${this.path}/:id(\\d+)`, validationMiddleware(CreateUserDto, 'body', true), this.usersController.updateUser);
     // this.router.delete(`${this.path}/:id(\\d+)`, this.usersController.deleteUser);
   }
